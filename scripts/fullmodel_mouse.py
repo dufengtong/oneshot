@@ -20,7 +20,7 @@ parser.add_argument('--img_downsample', type=int, default=1, help='downsample im
 parser.add_argument('--conv1_ks', type=int, default=25, help='kernel size of first convolutional layer')
 parser.add_argument('--conv2_ks', type=int, default=9, help='kernel size of second convolutional layer')
 parser.add_argument('--hs_readout', type=float, default=0.0)
-parser.add_argument('--helper_path', type=str, default='../../approxineuro/notebooks', help='path to helper file')
+parser.add_argument('--helper_path', type=str, default='../../../approxineuro/notebooks', help='path to helper file')
 parser.set_defaults(normalize=False)
 args = parser.parse_args()
 
