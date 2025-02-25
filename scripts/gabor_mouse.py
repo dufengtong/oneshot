@@ -42,10 +42,10 @@ ineur = np.arange(0, n_max_neurons) #np.arange(0, n_neurons, 5)
 ntrain = spks.shape[0]
 spks, spks_rep_all = data.normalize_spks(spks, spks_rep_all, itrain)
 
-ineurons = np.arange(data.NNs_valid[mouse_id])
-fev_test = metrics.fev(spks_rep_all)
-isort_neurons = np.argsort(fev_test)[::-1]
-ineur = isort_neurons[ineurons]
+# ineurons = np.arange(data.NNs_valid[mouse_id])
+# fev_test = metrics.fev(spks_rep_all)
+# isort_neurons = np.argsort(fev_test)[::-1]
+# ineur = isort_neurons[ineurons]
 
 spks = spks[:,ineur]
 spks_rep_all = [spks_rep_all[i][:,ineur] for i in range(len(spks_rep_all))]
