@@ -6,10 +6,10 @@ NNs = [6636,6055,3575,4792,5804,2746, 4261,0,0,6049,0]
 
 def main():
     mouse_id = 5
-    for mouse_id in [7,8,9]:
+    for mouse_id in [7]:
         # for nconv in [64]:
-        nconv1 = 16
-        nconv2 = 320
+        nconv1 = 192
+        nconv2 = 192
         seed = 1
         nlayers = 2
         n_max_neurons = NNs[mouse_id] # Total number of neurons
@@ -40,7 +40,7 @@ def main():
         # for nconv1 in nconv1_list:
         #     for nconv2 in nconv2_list:
         
-        # for nlayers in range(1,5):
+        for nlayers in range(1,5):
 
         # # Generate lists of neuron numbers and seed numbers using logarithmic spacing
         # # neuron_numbers = np.geomspace(1, 1000, num=10, dtype=int)
@@ -54,12 +54,12 @@ def main():
         #         # stim_numbers = [5000, 30000]
         #         # for n_stim_train in stim_numbers:
         # # for hs_readout in hs_list:
-        #     if nlayers > 2:
-        #             weight_decay_core += 0.1
-        prefix = f'fullmodel_{mouse_names[mouse_id]}_{nlayers}_{nconv1}_{nconv2}_seed{seed}'
-        bsub_cmd = f'bsub -n 2 -q gpu_a100 -gpu "num=1"  -J {prefix} -o {output_save_path}/{prefix}.out -e {output_save_path}/{prefix}.err "bash fullmodel_mouse_script_a100.sh {nlayers} {nconv1} {nconv2} {seed} {n_neuron} {n_stim_train} {weight_decay_core} {mouse_id} {conv1_ks} {conv2_ks} {pretrain_mouse_id} {hs_readout}"'
-        print(bsub_cmd)
-        os.system(bsub_cmd)
+            if nlayers > 2:
+                    weight_decay_core += 0.1
+            prefix = f'fullmodel_{mouse_names[mouse_id]}_{nlayers}_{nconv1}_{nconv2}_seed{seed}'
+            bsub_cmd = f'bsub -n 2 -q gpu_a100 -gpu "num=1"  -J {prefix} -o {output_save_path}/{prefix}.out -e {output_save_path}/{prefix}.err "bash fullmodel_mouse_script_a100.sh {nlayers} {nconv1} {nconv2} {seed} {n_neuron} {n_stim_train} {weight_decay_core} {mouse_id} {conv1_ks} {conv2_ks} {pretrain_mouse_id} {hs_readout}"'
+            print(bsub_cmd)
+            os.system(bsub_cmd)
 
 if __name__=='__main__':
     main()
