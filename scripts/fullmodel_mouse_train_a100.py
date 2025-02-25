@@ -1,7 +1,7 @@
 import os
 import numpy as np
 
-mouse_names = ['L1_A5', 'L1_A1',  'FX9', 'FX10', 'FX8', 'FX20', 'FX40']
+mouse_names = ['L1_A5', 'L1_A1',  'FX9', 'FX10', 'FX8', 'FX20', 'FX40', 'FX41', 'FX43', 'FX42', 'FX41']
 NNs = [6636,6055,3575,4792,5804,2746, 4261,0,0,6049,0]
 
 def main():
