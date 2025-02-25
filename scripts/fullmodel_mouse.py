@@ -51,7 +51,10 @@ if mouse_id == 5:
     xrange_max = 176
 else:
     xrange_max = 130
-img = data.load_images(args.data_path, file=os.path.join(args.data_path, img_file_name[mouse_id]), xrange=[xrange_max-130,xrange_max], downsample=args.img_downsample)
+if mouse_id > 6:
+    img = data.load_images(args.data_path, file=os.path.join(args.data_path, img_file_name[mouse_id]), downsample=args.img_downsample, crop=False)
+else:
+    img = data.load_images(args.data_path, file=os.path.join(args.data_path, img_file_name[mouse_id]), xrange=[xrange_max-130,xrange_max], downsample=args.img_downsample)
 nimg, Ly, Lx = img.shape
 print('img: ', img.shape, img.min(), img.max(), img.dtype)
 
