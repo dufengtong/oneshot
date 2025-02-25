@@ -30,7 +30,7 @@ mouse_id = args.mouse_id
 data_path = args.data_path
 
 # load neurons
-fname = '%s_nat60k_%s.npz'%(data.db[mouse_id]['mname'], data.db[mouse_id]['datexp'])
+fname = '%s_nat30k_%s.npz'%(data.db[mouse_id]['mname'], data.db[mouse_id]['datexp'])
 spks, istim_train, istim_test, xpos, ypos, spks_rep_all = data.load_neurons(file_path = os.path.join(data_path, fname), mouse_id = mouse_id)
 n_stim, n_max_neurons = spks.shape
 
