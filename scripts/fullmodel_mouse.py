@@ -49,10 +49,10 @@ data_path = args.data_path
 from utils.data import img_file_name, db, mouse_names, exp_date
 if mouse_id == 5:
     xrange_max = 176
-else:
+elif mouse_id <= 6:
     xrange_max = 130
 if mouse_id > 6:
-    img = data.load_images(args.data_path, file=os.path.join(args.data_path, img_file_name[mouse_id]), downsample=args.img_downsample, crop=False)
+    img = data.load_images(args.data_path, file=os.path.join(args.data_path, img_file_name[mouse_id]), downsample=args.img_downsample, xrange=[0, 150])
 else:
     img = data.load_images(args.data_path, file=os.path.join(args.data_path, img_file_name[mouse_id]), xrange=[xrange_max-130,xrange_max], downsample=args.img_downsample)
 nimg, Ly, Lx = img.shape
