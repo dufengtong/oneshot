@@ -12,7 +12,7 @@ parser.add_argument('--seed', type=int, default=1, help='random seed')
 parser.add_argument('--data_path', type=str, default='../data/', help='path to data file')
 parser.add_argument('--n_neurons', type=int, default=-1, help='number of neurons, -1 for all')
 parser.add_argument('--n_stims', type=int, default=-1, help='number of stimuli, -1 for all')
-parser.add_argument('--helper_path', type=str, default='../../../approxineuro/notebooks', help='path to helper file')
+parser.add_argument('--helper_path', type=str, default='../', help='path to helper file')
 parser.set_defaults(normalize=False)
 args = parser.parse_args()
 
