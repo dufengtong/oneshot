@@ -47,15 +47,10 @@ data_path = args.data_path
 
 # load images
 from utils.data import img_file_name, db, mouse_names, exp_date
+xrange_max = 130
 if mouse_id == 5:
     xrange_max = 176
-elif mouse_id <= 6:
-    xrange_max = 130
-if mouse_id > 6:
-    xrange_max = 150
-    img = data.load_images(args.data_path, file=os.path.join(args.data_path, img_file_name[mouse_id]), downsample=args.img_downsample, xrange=[0, 150])
-else:
-    img = data.load_images(args.data_path, file=os.path.join(args.data_path, img_file_name[mouse_id]), xrange=[xrange_max-130,xrange_max], downsample=args.img_downsample)
+img = data.load_images(args.data_path, file=os.path.join(args.data_path, img_file_name[mouse_id]), xrange=[xrange_max-130,xrange_max], downsample=args.img_downsample)
 nimg, Ly, Lx = img.shape
 print('img: ', img.shape, img.min(), img.max(), img.dtype)
 

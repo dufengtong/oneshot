@@ -6,7 +6,7 @@ NNs = [6636,6055,3575,4792,5804,2746, 4261,0,0,6049,0]
 
 def main():
     mouse_id = 5
-    for mouse_id in [7,8,9,10]:
+    for mouse_id in [7,8]:
         # for nconv in [64]:
         nconv1 = 16
         nconv2 = 320
