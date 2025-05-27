@@ -308,7 +308,7 @@ def create_model_name(mouse_name, expdate, n_layers, in_channels, clamp=True, us
     if pool:
         model_save_name += '_pool'
     if ineuron >= 0: # for minimodel
-        model_save_name += f'_nn{ineuron}'
+        model_save_name += f'_nneurons_{ineuron}'
     if hs_readout > 0:
         model_save_name += f'_hs{hs_readout:.0e}'
     if suffix:
