@@ -8,7 +8,7 @@ def main():
     mouse_id = 5
     for mouse_id in [11, 12]:
         # for nconv in [64]:
-        nconv1 = 64
+        nconv1 = 16
         nconv2 = 64
         seed = 1
         nlayers = 2
