@@ -76,9 +76,9 @@ from utils import metrics
 fev_test = metrics.fev(spks_rep_all)
 print('FEV (all): ', np.mean(fev_test))
 # select neurons
-# ineur = np.where(fev_test > 0.1)[0] # select neurons with FEV > 0.15
-# args.n_neurons = len(ineur) # set n_neurons to the number of selected neurons
-ineur = np.arange(0, n_max_neurons) #np.arange(0, n_neurons, 5)
+ineur = np.where(fev_test > 0.1)[0] # select neurons with FEV > 0.15
+args.n_neurons = len(ineur) # set n_neurons to the number of selected neurons
+# ineur = np.arange(0, n_max_neurons) #np.arange(0, n_neurons, 5)
 # if args.n_neurons != -1:
 #     
 #     fev_test = metrics.fev(spks_rep_all)
