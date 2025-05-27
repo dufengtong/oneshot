@@ -15,11 +15,13 @@ db[7]['mname'], db[7]['datexp'], db[7]['blk'] = 'FX41', '2025_01_23', '1' # tlag
 db[8]['mname'], db[8]['datexp'], db[8]['blk'] = 'FX43', '2025_01_24', '1' # tlag: [4, 5] nplanes = 4
 db[9]['mname'], db[9]['datexp'], db[9]['blk'] = 'FX42', '2025_01_25', '1' # tlag: [4, 5] nplanes = 4
 db[10]['mname'], db[10]['datexp'], db[10]['blk'] = 'FX41', '2025_02_14', '2' # tlag: [4, 5] nplanes = 4
+db[11]['mname'], db[11]['datexp'], db[11]['blk'] = 'FX41', '2025_05_12', '1' # tlag: [4, 5] nplanes = 4
+db[12]['mname'], db[12]['datexp'], db[12]['blk'] = 'FX43', '2025_05_19', '4' # tlag: [4, 5] nplanes = 4
 
 
-mouse_names = ['L1_A5', 'L1_A1',  'FX9', 'FX10', 'FX8', 'FX20', 'FX40', 'FX41', 'FX43', 'FX42', 'FX41']
-exp_date = ['022723', '030623', '051523', '051623', '051623', '092923', '102924', '012325', '012425', '012525', '021425']
-NNs = [6636,6055,3575,4792,5804,2746, 0, 5373]
+mouse_names = ['L1_A5', 'L1_A1',  'FX9', 'FX10', 'FX8', 'FX20', 'FX40', 'FX41', 'FX43', 'FX42', 'FX41', 'FX41', 'FX43']
+exp_date = ['022723', '030623', '051523', '051623', '051623', '092923', '102924', '012325', '012425', '012525', '021425', '051225', '051925']
+NNs = [6636,6055,3575,4792,5804,2746, 4261,0,0,6049,5247,3491, 4180]
 NNs_valid = [4242,2840,926,3040,2217,1239, 0, 2068]
 img_file_name = ['nat60k_text16_old.mat', # nat60k images and text16 images are original images
                  'nat60k_text16_old.mat',
@@ -27,6 +29,8 @@ img_file_name = ['nat60k_text16_old.mat', # nat60k images and text16 images are 
                  'nat60k_text16.mat',
                  'nat60k_text16.mat',
                  'nat60k_text16.mat',
+                 '8x4_nat30k_text16.mat',
+                 '8x4_nat30k_text16.mat',
                  '8x4_nat30k_text16.mat',
                  '8x4_nat30k_text16.mat',
                  '8x4_nat30k_text16.mat',
