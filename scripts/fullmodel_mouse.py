@@ -70,15 +70,17 @@ print('ival: ', ival.shape, ival.min(), ival.max())
 
 # normalize spks
 spks, spks_rep_all = data.normalize_spks(spks, spks_rep_all, itrain)
-fev_test = metrics.fev(spks_rep_all)
+
 # calculate FEV
+from utils import metrics
+fev_test = metrics.fev(spks_rep_all)
 print('FEV (all): ', np.mean(fev_test))
 # select neurons
 ineur = np.where(fev_test > 0.1)[0] # select neurons with FEV > 0.15
 args.n_neurons = len(ineur) # set n_neurons to the number of selected neurons
 # ineur = np.arange(0, n_max_neurons) #np.arange(0, n_neurons, 5)
 # if args.n_neurons != -1:
-#     from utils import metrics
+#     
 #     fev_test = metrics.fev(spks_rep_all)
 #     valid_idxes = np.where(fev_test > 0.15)[0]
 #     if args.n_neurons >= len(valid_idxes):
