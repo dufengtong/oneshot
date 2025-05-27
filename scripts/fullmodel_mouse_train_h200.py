@@ -57,7 +57,7 @@ def main():
             # if nlayers > 2:
             #         weight_decay_core += 0.1
             prefix = f'fullmodel_{mouse_names[mouse_id]}_{nlayers}_{nconv1}_{nconv2}_seed{seed}'
-            bsub_cmd = f'bsub -n 2 -q gpu_h200 -gpu "num=1"  -J {prefix} -o {output_save_path}/{prefix}.out -e {output_save_path}/{prefix}.err "bash fullmodel_mouse_script_a100.sh {nlayers} {nconv1} {nconv2} {seed} {n_neuron} {n_stim_train} {weight_decay_core} {mouse_id} {conv1_ks} {conv2_ks} {pretrain_mouse_id} {hs_readout}"'
+            bsub_cmd = f'bsub -n 2 -q gpu_h200 -gpu "num=1"  -J {prefix} -o {output_save_path}/{prefix}.out -e {output_save_path}/{prefix}.err "bash fullmodel_mouse_script_h200.sh {nlayers} {nconv1} {nconv2} {seed} {n_neuron} {n_stim_train} {weight_decay_core} {mouse_id} {conv1_ks} {conv2_ks} {pretrain_mouse_id} {hs_readout}"'
             print(bsub_cmd)
             os.system(bsub_cmd)
 
