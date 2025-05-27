@@ -1,15 +1,15 @@
 import os
 import numpy as np
 
-mouse_names = ['L1_A5', 'L1_A1',  'FX9', 'FX10', 'FX8', 'FX20', 'FX40', 'FX41', 'FX43', 'FX42', 'FX41']
-NNs = [6636,6055,3575,4792,5804,2746, 4261,0,0,6049,0]
+mouse_names = ['L1_A5', 'L1_A1',  'FX9', 'FX10', 'FX8', 'FX20', 'FX40', 'FX41', 'FX43', 'FX42', 'FX41', 'FX43']
+NNs = [6636,6055,3575,4792,5804,2746, 4261,0,0,6049,3491, 4180]
 
 def main():
     mouse_id = 5
-    for mouse_id in [10]:
+    for mouse_id in [11,12]:
         # for nconv in [64]:
-        nconv1 = 16
-        nconv2 = 64
+        nconv1 = 192
+        nconv2 = 192
         seed = 1
         nlayers = 2
         n_max_neurons = NNs[mouse_id] # Total number of neurons
@@ -40,7 +40,7 @@ def main():
         # for nconv1 in nconv1_list:
         #     for nconv2 in nconv2_list:
         
-        for nlayers in range(2,5):
+        for nlayers in range(1,5):
 
         # # Generate lists of neuron numbers and seed numbers using logarithmic spacing
         # # neuron_numbers = np.geomspace(1, 1000, num=10, dtype=int)
