@@ -6,7 +6,7 @@ NNs = [6636,6055,3575,4792,5804,2746, 4261,0,0,6049,5247,3491, 4180]
 
 def main():
     mouse_id = 5
-    for mouse_id in [12]:
+    for mouse_id in [11, 12]:
         # for nconv in [64]:
         nconv1 = 64
         nconv2 = 64
@@ -40,7 +40,7 @@ def main():
         # for nconv1 in nconv1_list:
         #     for nconv2 in nconv2_list:
         
-        for nlayers in range(2,3):
+        for nlayers in range(1,5):
 
         # # Generate lists of neuron numbers and seed numbers using logarithmic spacing
         # # neuron_numbers = np.geomspace(1, 1000, num=10, dtype=int)
