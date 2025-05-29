@@ -21,6 +21,8 @@ parser.add_argument('--conv1_ks', type=int, default=25, help='kernel size of fir
 parser.add_argument('--conv2_ks', type=int, default=9, help='kernel size of second convolutional layer')
 parser.add_argument('--hs_readout', type=float, default=0.0)
 parser.add_argument('--helper_path', type=str, default='../', help='path to helper file')
+parser.add_argument('--lr', type=float, default=0.003, help='learning rate')
+parser.add_argument('--l2_readout', type=float, default=0.001, help='l2 regularization for readout layer')
 parser.set_defaults(normalize=False)
 args = parser.parse_args()
 
@@ -181,7 +183,8 @@ model = model.to(device)
 # train model
 from utils import model_trainer
 if not os.path.exists(model_path):
-    best_state_dict = model_trainer.monkey_train(model, spks_train, train_real_responses, spks_val, val_real_responses, img_train, img_val, device=device)
+    best_state_dict = model_trainer.monkey_train(model, spks_train, train_real_responses, spks_val, val_real_responses, img_train, img_val, device=device, learning_rate=args.lr, 
+                                                 weight_decay_core=args.weight_decay_core, l2_readout=args.l2_readout)
     torch.save(best_state_dict, model_path)
     print('saved model', model_path)
 model.load_state_dict(torch.load(model_path))

@@ -1,14 +1,14 @@
 import os
 import numpy as np
 
-mouse_names = ['L1_A5', 'L1_A1',  'FX9', 'FX10', 'FX8', 'FX20']
-NNs = [6636,6055,3575,4792,5804,2746]
+mouse_names = ['L1_A5', 'L1_A1',  'FX9', 'FX10', 'FX8', 'FX20', 'FX40', 'FX41', 'FX43', 'FX42', 'FX41', 'FX41', 'FX43']
+NNs = [6636,6055,3575,4792,5804,2746, 4261,0,0,6049,5247,3491, 4180]
 
 def main():
     mouse_id = 2
-    for mouse_id in range(6):
-        nconv1 = 192
-        nconv2 = 192
+    for mouse_id in [12]:
+        nconv1 = 64
+        nconv2 = 64
         seed = 1
         nlayers = 1
         n_max_neurons = NNs[mouse_id] # Total number of neurons
@@ -16,6 +16,11 @@ def main():
         n_neuron = -1 # Number of neurons to sample
         n_stim_train = -1
         weight_decay_core = 0.1
+        gpu = 'h200'
+
+        lrs = [0.006, 0.003, 0.003, 0.003]
+        weight_decay_cores = [0.1, 0.001, 0.003, 0.06]
+        l2_readouts = [0.001, 0.001, 0.1, 0.1]
 
         output_save_path = f'outputs/fullmodel/{mouse_names[mouse_id]}'
         if not os.path.exists(output_save_path):
@@ -28,6 +33,12 @@ def main():
         #     for nconv2 in nconv2_list:
         
         for nlayers in range(1,5):
+            if nlayers == 1: nconv1 = 64
+            else: nconv1 = 16
+            
+            weight_decay_core = weight_decay_cores[nlayers-1]
+            lr = lrs[nlayers-1]
+            l2_readout = l2_readouts[nlayers-1]
 
         # Generate lists of neuron numbers and seed numbers using logarithmic spacing
         # neuron_numbers = np.geomspace(1, 1000, num=10, dtype=int)
@@ -39,10 +50,8 @@ def main():
         # stim_numbers = np.geomspace(500, 30000, num=10, dtype=int)
         # stim_numbers = np.unique(stim_numbers)  # Remove duplicates that might occur due to rounding
         # for n_stim_train in stim_numbers:
-            if nlayers > 2:
-                weight_decay_core += 0.1
-            prefix = f'fullmodel_{mouse_names[mouse_id]}_{nlayers}_{nconv1}_{nconv2}_seed{seed}_downsample_2'
-            bsub_cmd = f'bsub -n 2 -q gpu_t4 -gpu "num=1"  -J {prefix} -o {output_save_path}/{prefix}.out -e {output_save_path}/{prefix}.err "bash fullmodel_mouse_script.sh {nlayers} {nconv1} {nconv2} {seed} {n_neuron} {n_stim_train} {weight_decay_core} {mouse_id}"'
+            prefix = f'fullmodel_{mouse_names[mouse_id]}_{nlayers}_{nconv1}_{nconv2}_seed{seed}'
+            bsub_cmd = f'bsub -n 2 -q gpu_{gpu} -gpu "num=1"  -J {prefix} -o {output_save_path}/{prefix}.out -e {output_save_path}/{prefix}.err "bash fullmodel_mouse_script.sh {gpu} {nlayers} {nconv1} {nconv2} {seed} {n_neuron} {n_stim_train} {weight_decay_core} {mouse_id} {lr} {l2_readout}"'
             print(bsub_cmd)
             os.system(bsub_cmd)
 

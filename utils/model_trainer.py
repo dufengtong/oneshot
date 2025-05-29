@@ -206,13 +206,13 @@ def monkey_train_epoch(model, optimizer, img_train, spks_train, real_spks_train,
     return train_loss
 
 def monkey_train(model, train_responses, train_real_responses, val_responses, val_real_responses, train_images, val_images, \
-                 hs_readout=0, l2_readout=0.1, device='cuda', weight_decay_core=0.1):
-    batch_size = 100
+                 hs_readout=0, l2_readout=0.1, device='cuda', weight_decay_core=0.1, learning_rate=1e-3, bs=100):
+    batch_size = bs
     detach_core = False
     n_periods = 4
     
     for i_period in range(n_periods):
-        lr = 1e-3 / (3 ** (i_period))
+        lr = learning_rate / (3 ** (i_period))
         print(lr)
 
         restore = (i_period > 0)
@@ -231,6 +231,9 @@ def monkey_train(model, train_responses, train_real_responses, val_responses, va
                                     {'params': model.readout.Wc, 'weight_decay': l2_readout},
                                     {'params': model.readout.bias, 'weight_decay': 0}
                                     ], lr=lr)
+        
+        patience = 5
+        epochs_since_best = 0
 
         for epoch in range(n_epochs):
             model.train()
@@ -242,10 +245,17 @@ def monkey_train(model, train_responses, train_real_responses, val_responses, va
             if (varexp.mean() > varexp_max) and (not np.isnan(val_loss*train_loss)):
                 best_state_dict = copy_state(model)
                 varexp_max = varexp.mean()
+                epochs_since_best = 0
             elif np.isnan(val_loss*train_loss): # prevent overfitting
                 print('nan loss')
                 break
+            else:
+                epochs_since_best += 1
 
             if epoch%1==0 or epoch+1==n_epochs:
                 print(f'epoch {epoch}, train_loss = {train_loss:0.4f}, val_loss = {val_loss:0.4f}, varexp_val = {varexp.mean():0.4f}, time {time.time()-tic:.2f}s')
+
+            if epochs_since_best >= patience:
+                print(f'Early stopping at epoch {epoch} due to no improvement in validation varexp.')
+                break
     return best_state_dict
