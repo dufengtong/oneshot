@@ -9,6 +9,7 @@ figures/svgs
 *.npz
 *.npy
 *.mat
+*.pkl
 # pytorch
 *.pt
 # Byte-compiled / optimized / DLL files

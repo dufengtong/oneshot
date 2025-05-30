@@ -6,7 +6,7 @@ NNs = [6636,6055,3575,4792,5804,2746, 4261,0,0,6049,5247,3491, 4180]
 
 def main():
     mouse_id = 2
-    for mouse_id in [12]:
+    for mouse_id in [11]:
         nconv1 = 64
         nconv2 = 64
         seed = 1
@@ -16,7 +16,7 @@ def main():
         n_neuron = -1 # Number of neurons to sample
         n_stim_train = -1
         weight_decay_core = 0.1
-        gpu = 'h200'
+        gpu = 'a100'
 
         lrs = [0.006, 0.003, 0.003, 0.003]
         weight_decay_cores = [0.1, 0.001, 0.003, 0.06]
