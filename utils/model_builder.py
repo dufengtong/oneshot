@@ -293,7 +293,7 @@ def build_model(NN, input_Ly=66, input_Lx=130, n_layers=2, n_conv=16, n_conv_mid
 
 
 def create_model_name(mouse_name, expdate, n_layers, in_channels, clamp=True, use_sensorium_normalization=True, depth_separable=True, \
-                      ineuron=-1, seed=1, suffix=False, hs_readout=0.0, pool=True):
+                      ineuron=-1, seed=1, suffix=False, hs_readout=0.0, pool=True, crop=True):
     if mouse_name == 'L1_A1': mouse_name = 'l1a1'
     elif mouse_name == 'L1_A5': mouse_name = 'l1a5'
     model_save_name = f'{mouse_name}_{expdate}_{n_layers}layer'
@@ -311,6 +311,8 @@ def create_model_name(mouse_name, expdate, n_layers, in_channels, clamp=True, us
         model_save_name += f'_nneurons_{ineuron}'
     if hs_readout > 0:
         model_save_name += f'_hs{hs_readout:.0e}'
+    if not crop:
+        model_save_name += '_nocrop'
     if suffix:
         model_save_name += f'_{suffix}'
     if seed != 1:
