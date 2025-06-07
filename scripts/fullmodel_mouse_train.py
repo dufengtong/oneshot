@@ -6,7 +6,7 @@ NNs = [6636,6055,3575,4792,5804,2746, 4261,0,0,6049,5247,3491, 4180]
 
 def main():
     mouse_id = 2
-    for mouse_id in [10]:
+    for mouse_id in [12]:
         nconv1 = 64
         nconv2 = 64
         seed = 1

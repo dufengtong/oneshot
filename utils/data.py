@@ -15,7 +15,7 @@ db[7]['mname'], db[7]['datexp'], db[7]['blk'] = 'FX41', '2025_01_23', '1' # tlag
 db[8]['mname'], db[8]['datexp'], db[8]['blk'] = 'FX43', '2025_01_24', '1' # tlag: [4, 5] nplanes = 4
 db[9]['mname'], db[9]['datexp'], db[9]['blk'] = 'FX42', '2025_01_25', '1' # tlag: [4, 5] nplanes = 4
 db[10]['mname'], db[10]['datexp'], db[10]['blk'] = 'FX41', '2025_02_14', '2' # tlag: [4, 5] nplanes = 4
-db[11]['mname'], db[11]['datexp'], db[11]['blk'] = 'FX41', '2025_05_12', '1' # tlag: [4, 5] nplanes = 4
+db[11]['mname'], db[11]['datexp'], db[11]['blk'] = 'FX41', '2025_05_12', '3' # tlag: [4, 5] nplanes = 4
 db[12]['mname'], db[12]['datexp'], db[12]['blk'] = 'FX43', '2025_05_19', '4' # tlag: [4, 5] nplanes = 4
 
 
