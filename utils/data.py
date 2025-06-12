@@ -73,8 +73,8 @@ def split_area(mouse_id, xpos, ypos, ineur, retinotopy_path = '/media/carsen/ssd
     else:
         # area_names = ['PM','AM','','RL','','LM','AL','','V1','RSP']
         # region_names = ['V1', 'medial', 'anterior', 'lateral', 'all']
-        # db = data.db[mouse_id]
-        dpath = os.path.join(retinotopy_path, f"{db['mname']}_{db['datexp']}_{db['blk']}.npz")
+        db_tmp = db[mouse_id]
+        dpath = os.path.join(retinotopy_path, f"{db_tmp['mname']}_{db_tmp['datexp']}_{db_tmp['blk']}.npz")
         aligned_data = np.load(dpath)
         # iregion = aligned_data['iregion']
         iarea = aligned_data['iarea'][ineur]
