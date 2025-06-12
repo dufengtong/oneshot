@@ -6,9 +6,9 @@ NNs = [6636,6055,3575,4792,5804,2746, 4261,0,0,6049,5247,3491, 4180]
 
 def main():
     mouse_id = 2
-    for mouse_id in [7, 8]:
-        nconv1 = 64
-        nconv2 = 64
+    for mouse_id in [7, 8,10,11,12]:
+        nconv1 = 192
+        nconv2 = 192
         seed = 1
         nlayers = 1
         n_max_neurons = NNs[mouse_id] # Total number of neurons
@@ -33,7 +33,7 @@ def main():
         #     for nconv2 in nconv2_list:
         
         for nlayers in range(1,5):
-            if nlayers == 1: nconv1 = 64
+            if nlayers == 1: nconv1 = 192
             else: nconv1 = 16
             
             weight_decay_core = weight_decay_cores[nlayers-1]
