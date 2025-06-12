@@ -37,6 +37,51 @@ img_file_name = ['nat60k_text16_old.mat', # nat60k images and text16 images are 
                  '8x4_nat30k_text16.mat',
                  '8x4_nat30k_text16.mat',] # medial area recording
 
+def split_area(mouse_id, xpos, ypos, ineur, retinotopy_path = '/media/carsen/ssd1/github/retinotopy/aligned'):
+    x_pixel_ratio = 0.5
+    y_pixel_ratio = 0.5
+    if mouse_id == 5:
+        point1 = [-200, 0]
+        point2 = [-500, 600]
+    if mouse_id == 7:
+        point1 = [-650, 0]
+        point2 = [-250, 420]
+        x_pixel_ratio = 0.75
+    if mouse_id == 8:
+        point1 = [-700, 0]
+        point2 = [-300, 420]
+        x_pixel_ratio = 0.75
+    if mouse_id == 10:
+        point1 = [-600, 0]
+        point2 = [0, 800]
+        hmax_angle = 88
+        x_pixel_ratio = 0.75
+    if mouse_id == 11:
+        hmax_angle = 88
+        # x_pixel_ratio = 0.75
+    if mouse_id == 12:
+        x_pixel_ratio = 0.75
+
+    xpos_plot = xpos / x_pixel_ratio
+    ypos_plot = ypos / y_pixel_ratio
+
+    if mouse_id <= 10:
+        a = (point1[1] - point2[1]) / (point1[0] - point2[0])
+        b = point1[1] - a * point1[0]
+        imedial = np.where(xpos_plot >= -a * ypos_plot + b)[0]
+        iv1 = np.where(xpos_plot < -a * ypos_plot + b)[0]
+    else:
+        # area_names = ['PM','AM','','RL','','LM','AL','','V1','RSP']
+        # region_names = ['V1', 'medial', 'anterior', 'lateral', 'all']
+        # db = data.db[mouse_id]
+        dpath = os.path.join(retinotopy_path, f"{db['mname']}_{db['datexp']}_{db['blk']}.npz")
+        aligned_data = np.load(dpath)
+        # iregion = aligned_data['iregion']
+        iarea = aligned_data['iarea'][ineur]
+        imedial = np.where(iarea == 0)[0]
+        iv1 = np.where(iarea == 8)[0]
+    return iv1, imedial
+
 def load_images(root, file='nat30k.mat', downsample=1, xrange=[0,130], normalize=True, crop=True):
     """ load images from mat file """
     path = os.path.join(root, file)

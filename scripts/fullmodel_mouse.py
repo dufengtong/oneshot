@@ -23,6 +23,7 @@ parser.add_argument('--hs_readout', type=float, default=0.0)
 parser.add_argument('--helper_path', type=str, default='../', help='path to helper file')
 parser.add_argument('--lr', type=float, default=0.003, help='learning rate')
 parser.add_argument('--l2_readout', type=float, default=0.001, help='l2 regularization for readout layer')
+parser.add_argument('--area', type=int, default=0, help='area of the mouse used for training, 0 for all neurons, 1 for V1, 2 for PM')
 parser.set_defaults(normalize=False)
 args = parser.parse_args()
 
@@ -79,8 +80,14 @@ spks, spks_rep_all = data.normalize_spks(spks, spks_rep_all, itrain)
 from utils import metrics
 fev_test = metrics.fev(spks_rep_all)
 print('FEV (all): ', np.mean(fev_test))
-# select neurons
+############################################### SELECT NEURONS ##################################################
 ineur = np.where(fev_test > 0.1)[0] # select neurons with FEV > 0.15
+iv1, imedial = data.split_area(mouse_id, xpos, ypos, ineur)
+if args.area == 1: # V1
+    ineur = iv1
+elif args.area == 2: # PM
+    ineur = imedial
+
 args.n_neurons = len(ineur) # set n_neurons to the number of selected neurons
 # ineur = np.arange(0, n_max_neurons) #np.arange(0, n_neurons, 5)
 # if args.n_neurons != -1:
@@ -95,6 +102,7 @@ args.n_neurons = len(ineur) # set n_neurons to the number of selected neurons
 #         np.random.seed(args.n_neurons*args.seed)
 #         ineur = np.random.choice(valid_idxes, size=args.n_neurons, replace=False)
 
+#################################################################################################################
 spks_train = torch.from_numpy(spks[itrain][:,ineur])
 spks_val = torch.from_numpy(spks[ival][:,ineur]) 
 spks_rep_all = [spks_rep_all[i][:,ineur] for i in range(len(spks_rep_all))]
