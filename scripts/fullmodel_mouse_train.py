@@ -10,7 +10,7 @@ def main():
         nconv1 = 192
         nconv2 = 192
         seed = 1
-        nlayers = 1
+        nlayers = 2
         n_max_neurons = NNs[mouse_id] # Total number of neurons
         # n_max_stims = 4640 # Total number of unique train stimuli
         n_neuron = -1 # Number of neurons to sample
@@ -34,7 +34,7 @@ def main():
         
         for nlayers in range(1,5):
             if nlayers == 1: nconv1 = 192
-            else: nconv1 = 16
+            else: nconv1 = 192
             
             weight_decay_core = weight_decay_cores[nlayers-1]
             lr = lrs[nlayers-1]
