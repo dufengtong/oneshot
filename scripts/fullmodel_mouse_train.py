@@ -17,7 +17,7 @@ def main():
         n_stim_train = -1
         weight_decay_core = 0.1
         gpu = 'a100'
-        area = 2 # 0:all, 1:v1, 2:PM
+        area = 0 # 0:all, 1:v1, 2:PM
 
         lrs = [0.006, 0.003, 0.003, 0.003]
         weight_decay_cores = [0.1, 0.001, 0.003, 0.06]
