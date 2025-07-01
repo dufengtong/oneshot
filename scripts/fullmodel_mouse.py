@@ -163,7 +163,7 @@ if args.n_neurons != -1:
 #     suffix += f'ks_{args.conv1_ks}_{args.conv2_ks}'
 if args.pretrain_mouse_id > -100:
     if suffix != '': suffix += '_'
-    suffix += f'pretrainconv1_{mouse_names[args.pretrain_mouse_id]}_{exp_date[args.pretrain_mouse_id]}'
+    suffix += f'pretrainconv1'
 model, in_channels = model_builder.build_model(NN=len(ineur), n_layers=nlayers, n_conv=nconv1, n_conv_mid=nconv2, pool=pool, depth_separable=depth_separable, input_Ly=input_Ly, input_Lx=input_Lx, kernel_size=[args.conv1_ks, args.conv2_ks], Wc_coef=args.weight_decay_core)
 model_name = model_builder.create_model_name(mouse_names[mouse_id], exp_date[mouse_id], n_layers=nlayers, in_channels=in_channels, clamp=clamp, seed=seed, suffix=suffix, pool=pool,hs_readout=args.hs_readout, crop=crop, area=args.area)
 
