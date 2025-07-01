@@ -161,9 +161,9 @@ if args.n_neurons != -1:
 # if (args.conv1_ks != 25) or (args.conv2_ks != 9):
 #     if suffix != '': suffix += '_'
 #     suffix += f'ks_{args.conv1_ks}_{args.conv2_ks}'
-# if args.pretrain_mouse_id > -100:
-#     if suffix != '': suffix += '_'
-#     suffix += f'pretrainconv1_{mouse_names[args.pretrain_mouse_id]}_{exp_date[args.pretrain_mouse_id]}'
+if args.pretrain_mouse_id > -100:
+    if suffix != '': suffix += '_'
+    suffix += f'pretrainconv1_{mouse_names[args.pretrain_mouse_id]}_{exp_date[args.pretrain_mouse_id]}'
 model, in_channels = model_builder.build_model(NN=len(ineur), n_layers=nlayers, n_conv=nconv1, n_conv_mid=nconv2, pool=pool, depth_separable=depth_separable, input_Ly=input_Ly, input_Lx=input_Lx, kernel_size=[args.conv1_ks, args.conv2_ks], Wc_coef=args.weight_decay_core)
 model_name = model_builder.create_model_name(mouse_names[mouse_id], exp_date[mouse_id], n_layers=nlayers, in_channels=in_channels, clamp=clamp, seed=seed, suffix=suffix, pool=pool,hs_readout=args.hs_readout, crop=crop, area=args.area)
 
@@ -175,13 +175,8 @@ print('model path: ', model_path)
 
 # initialize model conv1
 if args.pretrain_mouse_id >-100:
-    pretrain_mouse_name = mouse_names[args.pretrain_mouse_id]
-    if pretrain_mouse_name == 'L1_A1': pretrain_mouse_name = 'l1a1'
-    elif pretrain_mouse_name == 'L1_A5': pretrain_mouse_name = 'l1a5'
-    pretrain_model_name = f'{pretrain_mouse_name}_{exp_date[args.pretrain_mouse_id]}_2layer_16_320_clamp_sensorium_depthsep_pool.pt'
-    if args.pretrain_mouse_id == 5:
-        pretrain_model_name = f'{pretrain_mouse_name}_{exp_date[args.pretrain_mouse_id]}_2layer_16_320_clamp_sensorium_depthsep_pool_xrange_176.pt'
-    pretrained_model_path = os.path.join(parent_dir, 'weights', 'fullmodel', mouse_names[args.pretrain_mouse_id], pretrain_model_name)
+    pretrain_model_name = f'FX10_051623_2layer_16_320_clamp_sensorium_depthsep.pt'
+    pretrained_model_path = os.path.join(parent_dir, 'weights', 'fullmodel', pretrain_model_name)
     pretrained_state_dict = torch.load(pretrained_model_path, map_location=device)
     model.core.features.layer0.conv.weight.data = pretrained_state_dict['core.features.layer0.conv.weight']
     # set the weight fix

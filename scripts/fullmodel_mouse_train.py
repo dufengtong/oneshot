@@ -18,6 +18,7 @@ def main():
         weight_decay_core = 0.1
         gpu = 'a100'
         area = 0 # 0:all, 1:v1, 2:PM
+        pretrain_mouse_id = -100
 
         lrs = [0.006, 0.003, 0.003, 0.003]
         weight_decay_cores = [0.1, 0.001, 0.003, 0.06]
@@ -53,7 +54,7 @@ def main():
     # for n_stim_train in stim_numbers:
 
         prefix = f'fullmodel_{mouse_names[mouse_id]}_{nlayers}_{nconv1}_{nconv2}_seed{seed}'
-        bsub_cmd = f'bsub -n 2 -q gpu_{gpu} -gpu "num=1"  -J {prefix} -o {output_save_path}/{prefix}.out -e {output_save_path}/{prefix}.err "bash fullmodel_mouse_script.sh {gpu} {nlayers} {nconv1} {nconv2} {seed} {n_neuron} {n_stim_train} {weight_decay_core} {mouse_id} {lr} {l2_readout} {area}"'
+        bsub_cmd = f'bsub -n 2 -q gpu_{gpu} -gpu "num=1"  -J {prefix} -o {output_save_path}/{prefix}.out -e {output_save_path}/{prefix}.err "bash fullmodel_mouse_script.sh {gpu} {nlayers} {nconv1} {nconv2} {seed} {n_neuron} {n_stim_train} {weight_decay_core} {mouse_id} {lr} {l2_readout} {area} {pretrain_mouse_id}"'
         print(bsub_cmd)
         os.system(bsub_cmd)
 
