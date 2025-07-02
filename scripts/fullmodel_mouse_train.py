@@ -18,7 +18,7 @@ def main():
         weight_decay_core = 0.1
         gpu = 'a100'
         area = 0 # 0:all, 1:v1, 2:PM
-        pretrain_mouse_id = 1 # -100
+        pretrain_mouse_id = -100 # -100
 
         lrs = [0.006, 0.003, 0.003, 0.003]
         weight_decay_cores = [0.1, 0.001, 0.003, 0.06]
@@ -34,7 +34,7 @@ def main():
         # for nconv1 in nconv1_list:
         #     for nconv2 in nconv2_list:
         
-        for nlayers in range(2,5):
+        for nlayers in range(1,5):
             if nlayers == 1: nconv1 = 192
             else: nconv1 = 16
             
