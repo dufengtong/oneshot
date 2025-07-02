@@ -5,7 +5,7 @@ NNs = [6636,6055,3575,4792,5804,2746, 4261,0,0,6049,5247,3491, 4180]
 
 def main():
     mouse_id = 5
-    for mouse_id in [11,12]:
+    for mouse_id in [7,8,10,11,12]:
         seed = 1
         n_neuron = -1 # Number of neurons to sample
         n_stim_train = -1 # 5000 # -1
