@@ -293,7 +293,7 @@ def build_model(NN, input_Ly=66, input_Lx=130, n_layers=2, n_conv=16, n_conv_mid
 
 
 def create_model_name(mouse_name, expdate, n_layers, in_channels, clamp=True, use_sensorium_normalization=True, depth_separable=True, \
-                      ineuron=-1, seed=1, suffix=False, hs_readout=0.0, pool=True, crop=True, area=0):
+                      ineuron=-1, seed=1, suffix=False, hs_readout=0.0, pool=True, crop=True, area=0, pretrain=False):
     """ create model name based on parameters """
     '''
     area: area of the mouse, None for use all neurons, 1 for use V1, 2 for PM.
@@ -324,6 +324,8 @@ def create_model_name(mouse_name, expdate, n_layers, in_channels, clamp=True, us
         model_save_name += f'_seed{seed}'
     if area != 0:
         model_save_name += f'_{areas[area]}'
+    if pretrain:
+        model_save_name += '_pretrainconv1'
     model_path = model_save_name + '.pt'
     print('model name: ', model_path)
     return model_path

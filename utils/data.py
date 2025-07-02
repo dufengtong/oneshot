@@ -48,6 +48,10 @@ def split_area(mouse_id, xpos, ypos, ineur, retinotopy_path = '/media/carsen/ssd
         point2 = [-250, 420]
         x_pixel_ratio = 0.75
     if mouse_id == 8:
+        point1 = [-600, 0]
+        point2 = [-400, 400]
+        x_pixel_ratio = 0.75
+    if mouse_id == 8:
         point1 = [-700, 0]
         point2 = [-300, 420]
         x_pixel_ratio = 0.75
@@ -119,6 +123,7 @@ def load_neurons(file_path, mouse_id = None, fixtrain=False):
     spks = dat['sp']
     istim_sp = (dat['istim_sp']).astype('int')
     istim_ss = (dat['istim_ss']).astype('int')
+    iplane = dat['iplane'] # plane index, 0 for plane 1, 1 for plane 2, etc.
 
     if 'nat30k' in file_path: fixtrain = False
 
@@ -130,7 +135,7 @@ def load_neurons(file_path, mouse_id = None, fixtrain=False):
         idx = np.where((istim_sp<30000) | (istim_sp>30500))[0]
         istim_sp = istim_sp[idx]
         spks = spks[:,idx]
-    return spks.T, istim_sp, istim_ss, xpos, ypos, spks_rep_all
+    return spks.T, istim_sp, istim_ss, xpos, ypos, spks_rep_all, iplane
 
 def split_train_val(istim_train, train_frac=0.9):
     '''
