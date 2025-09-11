@@ -37,7 +37,7 @@ img_file_name = ['nat60k_text16_old.mat', # nat60k images and text16 images are 
                  '8x4_nat30k_text16.mat',
                  '8x4_nat30k_text16.mat',] # medial area recording
 
-def split_area(mouse_id, xpos, ypos, ineur, retinotopy_path = '/media/carsen/ssd1/github/retinotopy/aligned'):
+def split_area(mouse_id, xpos, ypos, retinotopy_path = '/media/carsen/ssd1/github/retinotopy/aligned'):
     x_pixel_ratio = 0.5
     y_pixel_ratio = 0.5
     if mouse_id == 5:
@@ -81,7 +81,7 @@ def split_area(mouse_id, xpos, ypos, ineur, retinotopy_path = '/media/carsen/ssd
         dpath = os.path.join(retinotopy_path, f"{db_tmp['mname']}_{db_tmp['datexp']}_{db_tmp['blk']}.npz")
         aligned_data = np.load(dpath)
         # iregion = aligned_data['iregion']
-        iarea = aligned_data['iarea'][ineur]
+        iarea = aligned_data['iarea']
         imedial = np.where(iarea == 0)[0]
         iv1 = np.where(iarea == 8)[0]
     return iv1, imedial

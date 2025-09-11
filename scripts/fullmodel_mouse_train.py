@@ -15,12 +15,10 @@ def main():
         # n_max_stims = 4640 # Total number of unique train stimuli
         n_neuron = -1 # Number of neurons to sample
         n_stim_train = -1
-        weight_decay_core = 0.1
+        # weight_decay_core = 0.1
         gpu = 'a100'
         area = 0 # 0:all, 1:v1, 2:PM
         pretrain_mouse_id = -100 # -100
-        lr = 0.003
-        l2_readout = 0.001
 
         lrs = [0.006, 0.003, 0.003, 0.003]
         weight_decay_cores = [0.1, 0.001, 0.003, 0.06]
@@ -40,9 +38,9 @@ def main():
         #     if nlayers == 1: nconv1 = 192
         #     else: nconv1 = 16
             
-        #     weight_decay_core = weight_decay_cores[nlayers-1]
-        #     lr = lrs[nlayers-1]
-        #     l2_readout = l2_readouts[nlayers-1]
+        weight_decay_core = weight_decay_cores[nlayers-1]
+        lr = lrs[nlayers-1]
+        l2_readout = l2_readouts[nlayers-1]
 
         # Generate lists of neuron numbers and seed numbers using logarithmic spacing
         # neuron_numbers = np.geomspace(1, 1000, num=10, dtype=int)
