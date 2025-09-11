@@ -19,6 +19,8 @@ def main():
         gpu = 'a100'
         area = 0 # 0:all, 1:v1, 2:PM
         pretrain_mouse_id = -100 # -100
+        lr = None
+        l2_readout = None
 
         lrs = [0.006, 0.003, 0.003, 0.003]
         weight_decay_cores = [0.1, 0.001, 0.003, 0.06]
