@@ -8,7 +8,7 @@ def main():
     mouse_id = 2
     for mouse_id in [7, 8,10,11,12]:
         nconv1 = 16
-        nconv2 = 320
+        nconv2 = 192
         seed = 1
         nlayers = 2
         n_max_neurons = NNs[mouse_id] # Total number of neurons
