@@ -178,9 +178,12 @@ def category_variance_pairwise(spks, labels, ss=None):
                 nstim1 = spks1.shape[1]
                 nstim2 = spks2.shape[1]
                 total_variance = np.var(np.hstack([spks1, spks2]), axis=1, ddof=1)
-                residual_var1 = np.sum((spks1 - category_mean[:, icat1][:, None]) ** 2, axis=1) / (nstim1 - 1)
-                residual_var2 = np.sum((spks2 - category_mean[:, icat2][:, None]) ** 2, axis=1) / (nstim2 - 1)
-                residual_var = np.mean(np.stack([residual_var1, residual_var2]), axis=0)
+                # residual_var1 = np.sum((spks1 - category_mean[:, icat1][:, None]) ** 2, axis=1) / (nstim1 - 1)
+                # residual_var2 = np.sum((spks2 - category_mean[:, icat2][:, None]) ** 2, axis=1) / (nstim2 - 1)
+                # residual_var = np.mean(np.stack([residual_var1, residual_var2]), axis=0)
+                residual_var1 = np.sum((spks1 - category_mean[:, icat1][:, None]) ** 2, axis=1)
+                residual_var2 = np.sum((spks2 - category_mean[:, icat2][:, None]) ** 2, axis=1)
+                residual_var = (residual_var1 + residual_var2) / (nstim1 + nstim2 - 2)
                 category_var = total_variance - residual_var
                 category_var[np.abs(category_var) < 0.0001] = 0 # control precision
                 # Avoid division by zero by checking if total_variance is zero
