@@ -52,8 +52,10 @@ def fit_gabor_model(X, img, X_test, img_test, X_test_real=None, device = torch.d
     X_train = (X_train - train_mu) / train_std
 
     # define gabor parameters
-    sigma = np.array([0.75, 1.25, 1.5, 2.5, 3.5, 4.5, 5.5])
-    f = np.array([0.05, 0.1, 0.15, 0.2, 0.25, 0.5, 1, 2]) #[.01:.02:.13];
+    sigma = np.arange(1, 10, 1)
+    # np.array([0.75, 1.25, 1.5, 2.5, 3.5, 4.5, 5.5])
+    f = np.arange(0.05, 1, 0.05)
+    # np.array([0.05, 0.1, 0.15, 0.2, 0.25, 0.5, 1, 2]) #[.01:.02:.13];
     theta = np.arange(0, np.pi, np.pi/8)
     ph = np.arange(0, 2*np.pi, np.pi/4)
     ar = np.array([1, 1.5, 2])
