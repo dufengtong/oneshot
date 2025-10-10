@@ -53,13 +53,13 @@ if mouse_id == 5:
     xrange_max = 176
 if mouse_id in [10, 11]: crop=False
 else: crop=True
-img = data.load_images(args.data_path, file=os.path.join(args.data_path, img_file_name[mouse_id]), xrange=[xrange_max-130,xrange_max])
+img = data.load_images(args.data_path, file=os.path.join(args.data_path, img_file_name[mouse_id]), downsample=args.img_downsample, crop=crop)
 nimg, Ly, Lx = img.shape
 print('img: ', img.shape, img.min(), img.max(), img.dtype)
 
 # load neurons
-fname = '%s_nat60k_%s.npz'%(db[mouse_id]['mname'], db[mouse_id]['datexp'])
-spks, istim_train, istim_test, xpos, ypos, spks_rep_all = data.load_neurons(file_path = os.path.join(data_path, fname), mouse_id = mouse_id, fixtrain=use_30k)
+fname = '%s_nat30k_%s.npz'%(db[mouse_id]['mname'], db[mouse_id]['datexp'])
+spks, istim_train, istim_test, xpos, ypos, spks_rep_all, _ = data.load_neurons(file_path = os.path.join(data_path, fname), mouse_id = mouse_id, fixtrain=use_30k)
 n_stim, n_max_neurons = spks.shape
 print('spks: ', spks.shape, spks.min(), spks.max())
 print('spks_rep_all: ', len(spks_rep_all), spks_rep_all[0].shape)
