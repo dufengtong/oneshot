@@ -25,6 +25,12 @@ parser.add_argument('--l2_readout', type=float, default=0.2)
 parser.set_defaults(normalize=False)
 args = parser.parse_args()
 
+parent_dir = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
+# util_path = os.path.join(parent_dir, 'notebooks')
+util_path = args.helper_path
+if util_path not in sys.path:
+    sys.path.append(util_path)
+    
 np.random.seed(args.seed)
 
 if args.pretrain_mouse_id == -1:

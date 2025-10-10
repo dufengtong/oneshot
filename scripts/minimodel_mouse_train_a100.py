@@ -32,18 +32,19 @@ def main():
 
         # param search sup figure
         np.random.seed(42)
-        ind_selected = np.random.choice(np.arange(np.sum(NNs_valid)), 10, replace=False)
-        ind_all = np.zeros(np.sum(NNs_valid), dtype=bool)
-        ind_all[ind_selected] = True
-        ineurons_all = []
-        nmouse = len(NNs_valid)
-        for i in range(nmouse):
-            if i == 0:
-                ineurons_all.append(np.where(ind_all[:NNs_valid[i]])[0])
-            else:
-                ineurons_all.append(np.where(ind_all[np.sum(NNs_valid[:i]):np.sum(NNs_valid[:i+1])])[0])
-        ineurons = ineurons_all[mouse_id]
+        # ind_selected = np.random.choice(np.arange(np.sum(NNs_valid)), 10, replace=False)
+        # ind_all = np.zeros(np.sum(NNs_valid), dtype=bool)
+        # ind_all[ind_selected] = True
+        # ineurons_all = []
+        # nmouse = len(NNs_valid)
+        # for i in range(nmouse):
+        #     if i == 0:
+        #         ineurons_all.append(np.where(ind_all[:NNs_valid[i]])[0])
+        #     else:
+        #         ineurons_all.append(np.where(ind_all[np.sum(NNs_valid[:i]):np.sum(NNs_valid[:i+1])])[0])
+        # ineurons = ineurons_all[mouse_id]
         # ineurons = [737, 742]
+        ineurons = np.random.choice(ineurons, 2, replace=False)
 
         # output_save_path = f'outputs/minimodel_param_search/{mouse_names[mouse_id]}'
         output_save_path = f'outputs/minimodel/{mouse_names[mouse_id]}'
