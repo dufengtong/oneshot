@@ -23,6 +23,7 @@ parser.add_argument('--wc_coef', type=float, default=0.2)
 parser.add_argument('--hs_readout', type=float, default=0.003)
 parser.add_argument('--l2_readout', type=float, default=0.2)
 parser.add_argument('--helper_path', type=str, default='../', help='path to helper file')
+parser.add_argument('--img_downsample', type=int, default=1, help='downsample image, 1 for no downsample, 2 for half size')
 parser.set_defaults(normalize=False)
 args = parser.parse_args()
 
