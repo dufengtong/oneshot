@@ -22,7 +22,7 @@ def main():
         n_stim_train = -1
         hs_readout = 0.03 # 0.03 # 0.1 for 5k
         ineurons = np.arange(n_max_neurons)
-        pretrain_mouse_id = -100
+        pretrain_mouse_id = -1 # -100 for no pretrain. -1 for pretrain with the same mouse
 
         hs_list = [0, 0.01, 0.02, 0.03, 0.04, 0.05, 0.1, 0.2, 0.5]
 
