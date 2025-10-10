@@ -44,7 +44,7 @@ def main():
         #         ineurons_all.append(np.where(ind_all[np.sum(NNs_valid[:i]):np.sum(NNs_valid[:i+1])])[0])
         # ineurons = ineurons_all[mouse_id]
         # ineurons = [737, 742]
-        ineurons = np.random.choice(ineurons, 100, replace=False)
+        ineurons = np.random.choice(ineurons, 20, replace=False)
 
         # output_save_path = f'outputs/minimodel_param_search/{mouse_names[mouse_id]}'
         output_save_path = f'outputs/minimodel/{mouse_names[mouse_id]}'
