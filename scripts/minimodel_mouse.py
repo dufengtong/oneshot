@@ -49,9 +49,6 @@ data_path = args.data_path
 
 # load images
 from utils.data import img_file_name, db, mouse_names, exp_date
-xrange_max = 130
-if mouse_id == 5:
-    xrange_max = 176
 if mouse_id in [10, 11]: crop=False
 else: crop=True
 img = data.load_images(args.data_path, file=os.path.join(args.data_path, img_file_name[mouse_id]), downsample=args.img_downsample, crop=crop)
@@ -126,8 +123,6 @@ if args.pretrain_mouse_id > -100:
 else:
     if suffix != '': suffix += '_'
     suffix += 'nopretrain'
-if xrange_max != 130:
-    suffix += f'xrange_{xrange_max}'
 model, in_channels = model_builder.build_model(NN=1, n_layers=nlayers, n_conv=nconv1, n_conv_mid=nconv2, pool=pool, depth_separable=depth_separable, Wc_coef=args.wc_coef)
 model_name = model_builder.create_model_name(mouse_names[mouse_id], exp_date[mouse_id], ineuron=ineur[0], n_layers=nlayers, in_channels=in_channels, clamp=clamp, seed=seed,hs_readout=args.hs_readout, suffix=suffix)
 
