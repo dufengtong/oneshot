@@ -13,7 +13,7 @@ NNs_valid = [4242,2840,926,3040,2217,
 
 def main():
     mouse_id = 0
-    for mouse_id in [7]:
+    for mouse_id in [8, 10, 11, 12]:
         nconv1 = 16
         nconv2 = 64
         seed = 1
