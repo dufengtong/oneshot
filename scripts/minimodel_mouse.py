@@ -144,6 +144,12 @@ if args.pretrain_mouse_id > -100:
         pretrain_model_name = f'{pretrain_mouse_name}_{exp_date[args.pretrain_mouse_id]}_2layer_16_320_clamp_sensorium_depthsep_pool_nneurons_2068.pt'
     elif args.pretrain_mouse_id == 8:
         pretrain_model_name = f'{pretrain_mouse_name}_{exp_date[args.pretrain_mouse_id]}_2layer_16_320_clamp_sensorium_depthsep_pool_nneurons_1655.pt'
+    elif args.pretrain_mouse_id == 10:
+        pretrain_model_name = f'{pretrain_mouse_name}_{exp_date[args.pretrain_mouse_id]}_2layer_16_320_clamp_sensorium_depthsep_pool_nneurons_886.pt'
+    elif args.pretrain_mouse_id == 11:
+        pretrain_model_name = f'{pretrain_mouse_name}_{exp_date[args.pretrain_mouse_id]}_2layer_16_320_clamp_sensorium_depthsep_pool_nneurons_306.pt'
+    elif args.pretrain_mouse_id == 12:
+        pretrain_model_name = f'{pretrain_mouse_name}_{exp_date[args.pretrain_mouse_id]}_2layer_16_320_clamp_sensorium_depthsep_pool_nneurons_1681.pt'
     pretrained_model_path = os.path.join(parent_dir, 'weights', 'fullmodel', mouse_names[args.pretrain_mouse_id], pretrain_model_name)
     pretrained_state_dict = torch.load(pretrained_model_path, map_location=device)
     model.core.features.layer0.conv.weight.data = pretrained_state_dict['core.features.layer0.conv.weight']
