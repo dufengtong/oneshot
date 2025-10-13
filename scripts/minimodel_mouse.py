@@ -123,7 +123,7 @@ if args.pretrain_mouse_id > -100:
 else:
     if suffix != '': suffix += '_'
     suffix += 'nopretrain'
-model, in_channels = model_builder.build_model(NN=1, n_layers=nlayers, n_conv=nconv1, n_conv_mid=nconv2, pool=pool, depth_separable=depth_separable, Wc_coef=args.wc_coef)
+model, in_channels = model_builder.build_model(NN=1, n_layers=nlayers, n_conv=nconv1, n_conv_mid=nconv2, pool=pool, depth_separable=depth_separable, Wc_coef=args.wc_coef, input_Ly=input_Ly, input_Lx=input_Lx)
 model_name = model_builder.create_model_name(mouse_names[mouse_id], exp_date[mouse_id], ineuron=ineur[0], n_layers=nlayers, in_channels=in_channels, clamp=clamp, seed=seed,hs_readout=args.hs_readout, suffix=suffix)
 
 weight_path = os.path.join(parent_dir, 'weights', 'minimodel', mouse_names[mouse_id])
