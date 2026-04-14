@@ -81,7 +81,8 @@ from utils import metrics
 fev_test = metrics.fev(spks_rep_all)
 print('FEV (all): ', np.mean(fev_test))
 ############################################### SELECT NEURONS ##################################################
-ineur = np.where(fev_test > 0.15)[0] # select neurons with FEV > 0.15
+# ineur = np.where(fev_test > 0.15)[0] # select neurons with FEV > 0.15
+ineur = np.arange(0, n_max_neurons) # use all neurons
 iv1, imedial = data.split_area(mouse_id, xpos, ypos, retinotopy_path=args.data_path)
 if args.area == 1: # V1
     ineur = iv1
