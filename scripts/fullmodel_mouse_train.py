@@ -10,7 +10,7 @@ def main():
         nconv1 = 16
         nconv2 = 192
         seed = 1
-        nlayers = 3
+        nlayers = 4
         n_max_neurons = NNs[mouse_id] # Total number of neurons
         # n_max_stims = 4640 # Total number of unique train stimuli
         n_neuron = -1 # Number of neurons to sample
