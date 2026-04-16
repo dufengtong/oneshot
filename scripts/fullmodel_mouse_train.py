@@ -5,7 +5,7 @@ mouse_names = ['TX104', 'TX110', 'TX80', 'TX91', 'TX115', 'TX114']
 
 def main():
     mouse_id = 2
-    for mouse_id in [4]:
+    for mouse_id in [5]:
         nconv1 = 16
         nconv2 = 320
         seed = 1
