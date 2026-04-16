@@ -1,8 +1,7 @@
 import os
 import numpy as np
-import sys
-sys.path.append('../')
-from utils.data import db
+
+mouse_names = ['TX104', 'TX110', 'TX80', 'TX91', 'TX115', 'TX114']
 
 def main():
     mouse_id = 2
@@ -24,7 +23,7 @@ def main():
         weight_decay_cores = [0, 0.1, 0, 0]
         l2_readouts = [0, 0.01, 0, 0]
 
-        output_save_path = f'outputs/fullmodel/{db[mouse_id]["mname"]}/'
+        output_save_path = f'outputs/fullmodel/{mouse_names[mouse_id]}'
         if not os.path.exists(output_save_path):
             os.makedirs(output_save_path)
 
@@ -53,7 +52,7 @@ def main():
         # stim_numbers = np.unique(stim_numbers)  # Remove duplicates that might occur due to rounding
         # for n_stim_train in stim_numbers:
 
-        prefix = f'fullmodel_{db[mouse_id]["mname"]}_{nlayers}_{nconv1}_{nconv2}_seed{seed}'
+        prefix = f'fullmodel_{mouse_names[mouse_id]}_{nlayers}_{nconv1}_{nconv2}_seed{seed}'
         bsub_cmd = f'bsub -n 2 -q gpu_{gpu} -gpu "num=1"  -J {prefix} -o {output_save_path}/{prefix}.out -e {output_save_path}/{prefix}.err "bash fullmodel_mouse_script.sh {gpu} {nlayers} {nconv1} {nconv2} {seed} {n_neuron} {n_stim_train} {weight_decay_core} {mouse_id} {lr} {l2_readout} {area} {pretrain_mouse_id}"'
         print(bsub_cmd)
         os.system(bsub_cmd)
