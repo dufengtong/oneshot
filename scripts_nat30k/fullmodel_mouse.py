@@ -49,15 +49,18 @@ use_30k = False # use all data recorded (>30k) or only 30k, performance will dec
 data_path = args.data_path
 
 # load images
-from utils.data import db
+from utils.data import img_file_name, db, mouse_names, exp_date
 xrange_max = 130
-crop = True
-img = data.load_images(args.data_path, file=os.path.join(args.data_path, db[mouse_id]["stim"]), downsample=args.img_downsample, crop=crop)
+if mouse_id == 5:
+    xrange_max = 176
+if mouse_id in [10, 11]: crop=False
+else: crop=True
+img = data.load_images(args.data_path, file=os.path.join(args.data_path, img_file_name[mouse_id]), downsample=args.img_downsample, crop=crop)
 nimg, Ly, Lx = img.shape
 print('img: ', img.shape, img.min(), img.max(), img.dtype)
 
 # load neurons
-fname = '%s_nat15k_%s.npz'%(db[mouse_id]['mname'], db[mouse_id]['datexp'])
+fname = '%s_nat30k_%s.npz'%(db[mouse_id]['mname'], db[mouse_id]['datexp'])
 spks, istim_train, istim_test, xpos, ypos, spks_rep_all, _ = data.load_neurons(file_path = os.path.join(data_path, fname), mouse_id = mouse_id, fixtrain=use_30k)
 n_stim, n_max_neurons = spks.shape
 print('spks: ', spks.shape, spks.min(), spks.max())
@@ -78,8 +81,28 @@ from utils import metrics
 fev_test = metrics.fev(spks_rep_all)
 print('FEV (all): ', np.mean(fev_test))
 ############################################### SELECT NEURONS ##################################################
+# ineur = np.where(fev_test > 0.15)[0] # select neurons with FEV > 0.15
 ineur = np.arange(0, n_max_neurons) # use all neurons
-# args.n_neurons = len(ineur) # set n_neurons to the number of selected neurons
+iv1, imedial = data.split_area(mouse_id, xpos, ypos, ineur, retinotopy_path=args.data_path)
+if args.area == 1: # V1
+    ineur = iv1
+elif args.area == 2: # PM
+    ineur = imedial
+
+args.n_neurons = len(ineur) # set n_neurons to the number of selected neurons
+# ineur = np.arange(0, n_max_neurons) #np.arange(0, n_neurons, 5)
+# if args.n_neurons != -1:
+#     
+#     fev_test = metrics.fev(spks_rep_all)
+#     valid_idxes = np.where(fev_test > 0.15)[0]
+#     if args.n_neurons >= len(valid_idxes):
+#         print(f'not enough neurons with FEV > 0.15, using all neurons')
+#         ineur = valid_idxes
+#         args.n_neurons = len(valid_idxes)
+#     else:
+#         np.random.seed(args.n_neurons*args.seed)
+#         ineur = np.random.choice(valid_idxes, size=args.n_neurons, replace=False)
+
 #################################################################################################################
 spks_train = torch.from_numpy(spks[itrain][:,ineur])
 spks_val = torch.from_numpy(spks[ival][:,ineur]) 
@@ -126,13 +149,26 @@ nconv2 = args.nconv2
 suffix = ''
 if args.n_neurons != -1:
     suffix = f'nneurons_{args.n_neurons}'
+# if args.n_stims != -1:
+#     if suffix != '': suffix += '_'
+#     suffix += f'nstims_{nstims}'
+# if args.weight_decay_core != 0.1:
+#     suffix = f'wdcore_{args.weight_decay_core}'
+# if xrange_max != 130:
+#     suffix += f'xrange_{xrange_max}'
+# if args.img_downsample != 1:
+#     if suffix != '': suffix += '_'
+#     suffix += f'downsample_{args.img_downsample}'
+# if (args.conv1_ks != 25) or (args.conv2_ks != 9):
+#     if suffix != '': suffix += '_'
+#     suffix += f'ks_{args.conv1_ks}_{args.conv2_ks}'
 if args.pretrain_mouse_id > -100:
     if suffix != '': suffix += '_'
     suffix += f'pretrainconv1'
 model, in_channels = model_builder.build_model(NN=len(ineur), n_layers=nlayers, n_conv=nconv1, n_conv_mid=nconv2, pool=pool, depth_separable=depth_separable, input_Ly=input_Ly, input_Lx=input_Lx, kernel_size=[args.conv1_ks, args.conv2_ks], Wc_coef=args.weight_decay_core)
-model_name = model_builder.create_model_name(db[mouse_id]["mname"], db[mouse_id]["datexp"], n_layers=nlayers, in_channels=in_channels, clamp=clamp, seed=seed, suffix=suffix, pool=pool,hs_readout=args.hs_readout, crop=crop, area=args.area)
+model_name = model_builder.create_model_name(mouse_names[mouse_id], exp_date[mouse_id], n_layers=nlayers, in_channels=in_channels, clamp=clamp, seed=seed, suffix=suffix, pool=pool,hs_readout=args.hs_readout, crop=crop, area=args.area)
 
-weight_path = os.path.join(parent_dir, 'weights', 'fullmodel', db[mouse_id]["mname"])
+weight_path = os.path.join(parent_dir, 'weights', 'fullmodel', mouse_names[mouse_id])
 if not os.path.exists(weight_path):
     os.makedirs(weight_path)
 model_path = os.path.join(weight_path, model_name)
@@ -176,11 +212,11 @@ print(f'valid neurons: {len(valid_idxes)} / {len(test_fev)}')
 print(f'FEVE (test, FEV>0.15): {np.mean(test_feve[test_fev > threshold])}')
 
 
-res_fname = f'fullmodel_medial_{db[mouse_id]["mname"]}_result.txt'
+res_fname = f'fullmodel_medial_{mouse_names[mouse_id]}_result.txt'
 if args.n_neurons != -1:
-    res_fname = f'fullmodel_medial_{db[mouse_id]["mname"]}_result_vary_n_neurons.txt'
+    res_fname = f'fullmodel_medial_{mouse_names[mouse_id]}_result_vary_n_neurons.txt'
 if args.n_stims != -1:
-    res_fname = f'fullmodel_medial_{db[mouse_id]["mname"]}_result_vary_n_stims.txt'
+    res_fname = f'fullmodel_medial_{mouse_names[mouse_id]}_result_vary_n_stims.txt'
 with open(res_fname, 'a') as f:
     f.write(f'{model_path}\n')
     f.write(f'FEVE(test)={test_feve[test_fev > threshold].mean()*100:0.4f}%\n')

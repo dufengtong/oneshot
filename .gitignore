@@ -1,4 +1,7 @@
 data/
+# Ignore nat30k data and results
+notebook_nat30k/
+scripts_nat30k/
 *.png
 *.zip
 *.pdf
