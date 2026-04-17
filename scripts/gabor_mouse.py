@@ -30,7 +30,7 @@ mouse_id = args.mouse_id
 data_path = args.data_path
 
 # load neurons
-fname = '%s_nat30k_%s.npz'%(data.db[mouse_id]['mname'], data.db[mouse_id]['datexp'])
+fname = '%s_nat15k_%s.npz'%(data.db[mouse_id]['mname'], data.db[mouse_id]['datexp'])
 spks, istim_train, istim_test, xpos, ypos, spks_rep_all, _ = data.load_neurons(file_path = os.path.join(data_path, fname), mouse_id = mouse_id)
 n_stim, n_max_neurons = spks.shape
 
@@ -50,7 +50,7 @@ spks, spks_rep_all = data.normalize_spks(spks, spks_rep_all, itrain)
 spks = spks[:,ineur]
 spks_rep_all = [spks_rep_all[i][:,ineur] for i in range(len(spks_rep_all))]
 
-img_all = data.load_images(data_path, file=os.path.join(data_path, data.img_file_name[mouse_id]), downsample=2, crop=False)
+img_all = data.load_images(data_path, file=os.path.join(data_path, data.db[mouse_id]["stim"]), downsample=2, crop=False)
 nimg, Ly, Lx = img_all.shape
 print('img: ', img_all.shape, img_all.min(), img_all.max())
 
