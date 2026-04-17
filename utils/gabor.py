@@ -206,8 +206,8 @@ def fit_gabor_model(X, img, X_test, img_test, X_test_real=None, device = torch.d
 
         if checkpoint_path is not None and (idx + 1) % checkpoint_every == 0:
             tmp_path = checkpoint_path + '.tmp'
-            with open(tmp_path, 'wb') as f:
-                np.savez(f, vmax=vmax, Amax=Amax, gmax=gmax, ymax=ymax, xmax=xmax,
+            with open(tmp_path, 'wb') as ckpt_f:
+                np.savez(ckpt_f, vmax=vmax, Amax=Amax, gmax=gmax, ymax=ymax, xmax=xmax,
                          mu1=mu1.cpu().numpy(), mu2=mu2.cpu().numpy(),
                          next_idx=idx + 1)
             os.replace(tmp_path, checkpoint_path)
