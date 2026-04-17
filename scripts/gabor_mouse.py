@@ -80,14 +80,20 @@ Ly, Lx, _ = img.shape
 
 
 from utils import gabor
-result_dict = gabor.fit_gabor_model(X, img, X_test, img_test)
 
-# save all gabor parameters
 weight_path = os.path.join(parent_dir, 'weights', 'gabor')
-save_path = os.path.join(weight_path, f'gabor_params_{data.db[mouse_id]["mname"]}_{data.db[mouse_id]["datexp"]}_more_f_sigma.npz')
 if not os.path.exists(weight_path):
     os.makedirs(weight_path)
+checkpoint_path = os.path.join(weight_path, f'gabor_ckpt_{data.db[mouse_id]["mname"]}_{data.db[mouse_id]["datexp"]}.npz')
+
+result_dict = gabor.fit_gabor_model(X, img, X_test, img_test, checkpoint_path=checkpoint_path)
+
+# save all gabor parameters
+save_path = os.path.join(weight_path, f'gabor_params_{data.db[mouse_id]["mname"]}_{data.db[mouse_id]["datexp"]}_more_f_sigma.npz')
 np.savez(save_path, **result_dict)
+
+if os.path.exists(checkpoint_path):
+    os.remove(checkpoint_path)
 
 # log the results
 res_fname = f'gabor_model_{data.db[mouse_id]["mname"]}_result.txt'

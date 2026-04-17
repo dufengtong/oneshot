@@ -1,3 +1,4 @@
+import os
 import numpy as np
 import time
 import torch
@@ -33,7 +34,8 @@ def gabor_filter(x, y, xcent, ycent, A, sigma, f, theta, ph, ar, is_torch=True):
     G = A * gaussian * cosine
     return G
 
-def fit_gabor_model(X, img, X_test, img_test, X_test_real=None, device = torch.device('cuda')):
+def fit_gabor_model(X, img, X_test, img_test, X_test_real=None, device = torch.device('cuda'),
+                    checkpoint_path=None, checkpoint_every=100):
     '''
     fit gabor RFs to neuron responses.
     X: n_stim x neurons
@@ -57,7 +59,7 @@ def fit_gabor_model(X, img, X_test, img_test, X_test_real=None, device = torch.d
     f = np.arange(0.1, 1, 0.1)
     # np.array([0.05, 0.1, 0.15, 0.2, 0.25, 0.5, 1, 2]) #[.01:.02:.13];
     theta = np.arange(0, np.pi, np.pi/8)
-    ph = np.arange(0, 2*np.pi, np.pi/4)
+    ph = np.arange(0, 2*np.pi, np.pi/2)
     ar = np.array([1, 1.5, 2])
     print(f'sigma: {sigma.shape}, f: {f.shape}, theta: {theta.shape}, ph: {ph.shape}, ar: {ar.shape}')
 
@@ -96,7 +98,7 @@ def fit_gabor_model(X, img, X_test, img_test, X_test_real=None, device = torch.d
     # if X_test_real is not None:
     #     X_test = nanarray(X_train, X_real)
 
-    ycents, xcents = np.meshgrid(np.arange(0,Ly-1,1), np.arange(1,Lx,1), indexing='ij')
+    ycents, xcents = np.meshgrid(np.arange(0,Ly-1,2), np.arange(1,Lx,2), indexing='ij')
     ycents, xcents = torch.from_numpy(ycents.astype('float32')), torch.from_numpy(xcents.astype('float32'))
 
     vtest = np.zeros(ycents.shape, 'float32')
@@ -108,7 +110,26 @@ def fit_gabor_model(X, img, X_test, img_test, X_test_real=None, device = torch.d
 
     tic = time.time()
 
-    for ycent, xcent in zip(ycents.flatten(), xcents.flatten()):
+    y_flat = ycents.flatten()
+    x_flat = xcents.flatten()
+    n_centers = y_flat.shape[0]
+
+    start_idx = 0
+    if checkpoint_path is not None and os.path.exists(checkpoint_path):
+        ckpt = np.load(checkpoint_path)
+        vmax = ckpt['vmax']
+        Amax = ckpt['Amax']
+        gmax = ckpt['gmax']
+        ymax = ckpt['ymax']
+        xmax = ckpt['xmax']
+        mu1 = torch.from_numpy(ckpt['mu1']).to(device)
+        mu2 = torch.from_numpy(ckpt['mu2']).to(device)
+        start_idx = int(ckpt['next_idx'])
+        print(f'resumed from checkpoint at position {start_idx}/{n_centers}')
+
+    for idx in range(start_idx, n_centers):
+        ycent = y_flat[idx]
+        xcent = x_flat[idx]
         # compute responses to gabors
         gabor_filters1 = gabor_filter(ys, xs, ycent, xcent, 1, sigma, f, theta, ph, ar, 
                                         is_torch=True).to(device).unsqueeze(-3)
@@ -180,11 +201,17 @@ def fit_gabor_model(X, img, X_test, img_test, X_test_real=None, device = torch.d
         mu1[imax] = mu1_train[gbest][imax]
         mu2[imax] = mu2_train[gbest][imax]
 
-        if xcent.numpy() % 5 == 0:                                                                                                                                                                                                
+        if xcent.numpy() % 5 == 0:
             print(f'y={ycent.numpy():.0f}, x={xcent.numpy():.0f}, vmax={vmax.mean():.3f}, time {time.time()-tic:.1f}s')
 
-        # test
-        # test
+        if checkpoint_path is not None and (idx + 1) % checkpoint_every == 0:
+            tmp_path = checkpoint_path + '.tmp'
+            with open(tmp_path, 'wb') as f:
+                np.savez(f, vmax=vmax, Amax=Amax, gmax=gmax, ymax=ymax, xmax=xmax,
+                         mu1=mu1.cpu().numpy(), mu2=mu2.cpu().numpy(),
+                         next_idx=idx + 1)
+            os.replace(tmp_path, checkpoint_path)
+
     ym = torch.from_numpy(ymax.astype('float32')).unsqueeze(-1).unsqueeze(-1)
     xm = torch.from_numpy(xmax.astype('float32')).unsqueeze(-1).unsqueeze(-1)
     # print(f'ym: {ym.shape}, xm: {xm.shape}')

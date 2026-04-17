@@ -44,11 +44,11 @@ def tun_curves(Z, data, dstim, dt = np.arange(6,12), nstim = 200, nplanes = 1):
         nsp[1, istim] = Z[:, iframe[1:nmax:2]].mean(-2)#.mean(-1)
     return nsp
 
-def load_dataset(db, iplanes = None, deconv = 0, subcells = True): #, nsub = 1):    
+def load_dataset(db, iplanes = None, deconv = 0, subcells = True, datapath='/home/carsen/dm11_pachitariu/data/PROC'): #, nsub = 1):    
     from suite2p.extraction import dcnv
 
     mname, datexp, blk = db['mname'], db['datexp'], db['blk']
-    root = os.path.join('/home/carsen/dm11_pachitariu/data/PROC', mname, datexp, blk)
+    root = os.path.join(datapath, mname, datexp, blk)
 
     ops = np.load(os.path.join(root, 'suite2p', 'plane0', 'ops.npy'), allow_pickle=True).item() # ops is a "pickled" object,
 
@@ -191,9 +191,9 @@ def stim_and_mic_time(dat,  spks, tlags = [4.5, 5.5], nplanes = 1):
     
     return sp, istim
 
-def load_timeline(db):    
+def load_timeline(db, datapath='/home/carsen/dm11_pachitariu/data/PROC'):    
     mname, datexp, blk = db['mname'], db['datexp'], db['blk']
-    root = os.path.join('/home/carsen/dm11_pachitariu/data/PROC', mname, datexp, blk)
+    root = os.path.join(datapath, mname, datexp, blk)
     fname     = 'Timeline_%s_%s_%s_RAW.mat'%(mname, datexp, blk) 
     fnamepath = os.path.join(root, fname) 
 
