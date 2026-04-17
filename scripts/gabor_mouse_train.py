@@ -4,7 +4,7 @@ mouse_names = ['TX104', 'TX110', 'TX80', 'TX91', 'TX115', 'TX114']
 
 def main():
     mouse_id = 5
-    for mouse_id in [4,5]:
+    for mouse_id in [0,1,2,3,4,5]:
         seed = 1
         n_neuron = -1 # Number of neurons to sample
         n_stim_train = -1 # 5000 # -1
