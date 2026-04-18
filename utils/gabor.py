@@ -219,20 +219,24 @@ def fit_gabor_model(X, img, X_test, img_test, X_test_real=None, device = torch.d
     for i in range(len(gabor_params)):
         gabor_params[i] = params[i].flatten()[gmax].reshape(n_neurons, 1, 1)
     msigma, mf, mtheta, mph, mar = gabor_params
-    gabor_filters1 = gabor_filter(ys, xs, ym, xm, 1, msigma, mf, mtheta, mph, mar, is_torch=True).to(device).unsqueeze(-3)
-    gabor_filters2 = gabor_filter(ys, xs, ym, xm, 1, msigma, mf, mtheta, mph + np.pi/2, mar, is_torch=True).to(device).unsqueeze(-3)
-
     # load test images
     # img_test = img_all[istim_test].transpose(1,2,0)
     # img_test = (img_test - img_mean) / img_std
     print(f'img_test: {img_test.shape} {img_test.min()}, {img_test.max()}')
 
-    # predict responses
+    # predict responses — batch over neurons to avoid OOM
     ntest = img_test.shape[-1]
     resp_test1 = torch.zeros((n_neurons, ntest), dtype=torch.float32, device=device)
     resp_test2 = torch.zeros((n_neurons, ntest), dtype=torch.float32, device=device)
-    eval_gabors(img_test, gabor_filters1, resp_test1, device=device, rectify=False)
-    eval_gabors(img_test, gabor_filters2, resp_test2, device=device, rectify=False)
+    neuron_batch = 5000
+    for nb in range(0, n_neurons, neuron_batch):
+        ne = min(nb + neuron_batch, n_neurons)
+        gf1 = gabor_filter(ys, xs, ym[nb:ne], xm[nb:ne], 1, msigma[nb:ne], mf[nb:ne],
+                           mtheta[nb:ne], mph[nb:ne], mar[nb:ne], is_torch=True).to(device).unsqueeze(-3)
+        gf2 = gabor_filter(ys, xs, ym[nb:ne], xm[nb:ne], 1, msigma[nb:ne], mf[nb:ne],
+                           mtheta[nb:ne], mph[nb:ne] + np.pi/2, mar[nb:ne], is_torch=True).to(device).unsqueeze(-3)
+        eval_gabors(img_test, gf1, resp_test1[nb:ne], device=device, rectify=False)
+        eval_gabors(img_test, gf2, resp_test2[nb:ne], device=device, rectify=False)
     resp_test2 = torch.sqrt(resp_test1**2 + resp_test2**2) # RMS for complex cell response
     resp_test2 = relu(resp_test2) # rectify
     resp_test1 = relu(resp_test1) # rectify
