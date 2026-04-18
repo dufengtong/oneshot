@@ -127,7 +127,7 @@ def stim_binning(Timeline, spks, ops, bid = 0, tlag = 0):
 
     NN, NT = spks.shape
     frame_start = Timeline['stiminfo'].item()['frame_start']
-    istim = Timeline['stiminfo'].item()['istim']
+    istim = Timeline['stiminfo'].item()['istim'] - 1 # make it 0 indexed
 
     frame_start = np.array(frame_start).astype('int')
 
